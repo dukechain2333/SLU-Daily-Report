@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 
 import requests
 from bs4 import BeautifulSoup
@@ -44,6 +44,10 @@ chrome87_plus_instance = {
     "Sec-Fetch-Dest": "iframe",
     "Accept-Encoding": "gzip, deflate, br",
     "Accept-Language": "en-US,en;q=0.9",
+}
+real_ats = {
+    "AMY": "TRUE上午在校", "AMN": "TRUE上午不在校",
+    "PMY": "TRUE下午在校", "PMN": "TRUE下午不在校"
 }
 
 
@@ -105,13 +109,28 @@ class DailyReport:
         process_inst_id = pir_bs_tree.find("input", id="processInstId", type="hidden").attrs['value']
         form_def_id = pir_bs_tree.find("input", id="formDefId", type="hidden").attrs['value']
         process_def_id = pir_bs_tree.find("input", id="processDefId", type="hidden").attrs['value']
-        form_data = {
-            "ZHBNOW": "0", "ZHB": "0", "MQJC": "0", "KZZD": "TRUE下午在校", "SWBZ": "", "XWBZ": "", "BZ": "", "ISSAME": "",
-            "SORTNUM": "29", "XW_TJTW": "", "XW_XWTW": "0", "SW_TJTW": "", "SWTW": "", "SFZX": self.at_school,
-            "SFCS": "31|1", "SF": self.postal_code, "DQJZS": self.at_shanghai, "STZK": self.health,
-            "BSRQ": date.today().__str__(), "ROLE": "学生", "FDY": self.teacher_id, "BJ": self.class_name,
-            "BM": self.school_name, "XM": self.name, "GH": self.username, "ISREPORT": "0",
-        }
+
+        city_code = f"{int(self.postal_code[0:2])}|{int(self.postal_code[2:4])}"
+
+        if datetime.now().hour >= 12:
+            form_data = {
+                "ZHBNOW": "0", "ZHB": "0", "MQJC": "0", "KZZD": real_ats["PMY"] if self.at_school else real_ats["PMN"],
+                "SWBZ": "", "XWBZ": "", "BZ": "",
+                "ISSAME": "", "SORTNUM": "29", "XW_TJTW": "", "XW_XWTW": "0", "SW_TJTW": "", "SWTW": "",
+                "SFZX": self.at_school, "SFCS": city_code, "SF": self.postal_code, "DQJZS": self.at_shanghai,
+                "STZK": self.health, "BSRQ": date.today().__str__(), "ROLE": "学生", "FDY": self.teacher_id,
+                "BJ": self.class_name, "BM": self.school_name, "XM": self.name, "GH": self.username, "ISREPORT": "0",
+            }
+        else:
+            form_data = {
+                "ZHBNOW": "0", "ZHB": "0", "MQJC": "0", "KZZD": real_ats["AMY"] if self.at_school else real_ats["AMN"],
+                "SWBZ": "", "XWBZ": "", "BZ": "",
+                "ISSAME": "", "SORTNUM": "29", "XW_TJTW": "", "XW_XWTW": "", "SW_TJTW": "", "SWTW": "0",
+                "SFZX": self.at_school, "SFCS": city_code, "SF": self.postal_code, "DQJZS": self.at_shanghai,
+                "STZK": self.health, "BSRQ": date.today().__str__(), "ROLE": "学生", "FDY": self.teacher_id,
+                "BJ": self.class_name, "BM": self.school_name, "XM": self.name, "GH": self.username, "ISREPORT": "0",
+            }
+
         old_form_data = {
             "ZHBNOW": "0", "ZHB": "0", "MQJC": "0", "KZZD": "TRUE下午不在校", "SWBZ": "", "XWBZ": "", "BZ": "",
             "ISSAME": "", "SORTNUM": "29", "XW_TJTW": "", "XW_XWTW": "", "SW_TJTW": "", "SWTW": "",
