@@ -55,3 +55,25 @@ Guidance for filling personal information:
 | school_name     | string    | name of your school<br />Supported: 统计与数学学院, 信息管理学院, 财税与公共管理学院 |
 | class_name      | string    | name of your class                                           |
 | name            | string    | your name                                                    |
+
+## Attached Tools
+
+`header_python_decorator.py` is a tool to convert Chrome formatted web request/response headers to Python formatted ones.
+
+For example, it can convert this header,
+
+```yaml
+accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+accept-encoding: gzip, deflate, br
+accept-language: en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7
+```
+
+to the following header.
+
+```python
+"accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+"accept-encoding": "gzip, deflate, br",
+"accept-language": "en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7",
+```
+
+To use this tool, put the original header into the text file `header_converter_space`, and run `header_python_decorator.py`.
