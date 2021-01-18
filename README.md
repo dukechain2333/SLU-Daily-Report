@@ -19,9 +19,9 @@ The university requires students and teachers to report their health conditions,
 
 3. Fill your personal information in `main.py`.
 
-4. Windows:
-   Run `main.py` with python >= 3.7.
-   Linux:
+4. Windows: <br />
+   Run `main.py` with python >= 3.7. <br />
+   Linux: <br />
    (1) If you do not have `screen` package.
 
    ```bash
