@@ -15,4 +15,4 @@ while 1:
         print(result)
     else:
         print("Not in the reporting time period: ", datetime.now())
-    sleep(3600)  # 1 hours (unit: seconds)
+    sleep(3599)  # 1 hours (unit: seconds)
