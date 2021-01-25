@@ -1,4 +1,4 @@
-# SLU_DailyReport
+# SLU Daily Report
  Auto daily COVID-19 epidemic prevention report in Shanghai Lixin University of Accounting and Finance 
 
 ![](https://img.shields.io/badge/tests-2021.1.18%20%E2%9C%94-green)
